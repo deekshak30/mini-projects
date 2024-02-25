@@ -10,7 +10,6 @@ def computer_guess(x):
         if low <= high:
             guess = random.randint(low, high)
         else:
-            # This case should not occur, but if it does, break the loop
             print("Error: Invalid range!")
             break
 
