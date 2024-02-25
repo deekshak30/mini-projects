@@ -1,24 +1,45 @@
-def binary_search(arr, target):
-    low = 0
-    high = len(arr) - 1
-
-    while low <= high:
-        mid = (low + high) // 2
-
-        if arr[mid] == target:
-            return mid
-        elif arr[mid] < target:
-            low = mid + 1
-        else:
-            high = mid - 1
-
+import random
+import time
+def naive_search(l, target):
+    for i in range(len(l)):
+        if l[i] == target:
+            return i
     return -1
-arr = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]
-target = 12
+def binary_search(l, target, low=None, high=None):
+    if low is None:
+        low = 0
+    if high is None:
+        high = len(l) - 1
 
-result = binary_search(arr, target)
+    if high < low:
+        return -1
+    midpoint = (low + high) // 2 
+    if l[midpoint] == target:
+        return midpoint
+    elif target < l[midpoint]:
+        return binary_search(l, target, low, midpoint-1)
+    else:
+       
+        return binary_search(l, target, midpoint+1, high)
 
-if result != -1:
-    print("Element found at index", result)
-else:
-    print("Element not found in the array")
+if __name__=='__main__':
+    
+
+    length = 10000
+    
+    sorted_list = set()
+    while len(sorted_list) < length:
+        sorted_list.add(random.randint(-3*length, 3*length))
+    sorted_list = sorted(list(sorted_list))
+
+    start = time.time()
+    for target in sorted_list:
+        naive_search(sorted_list, target)
+    end = time.time()
+    print("Naive search time: ", (end - start), "seconds")
+
+    start = time.time()
+    for target in sorted_list:
+        binary_search(sorted_list, target)
+    end = time.time()
+    print("Binary search time: ", (end - start), "seconds")
